@@ -1,0 +1,63 @@
+```mermaid 
+flowchart TB
+    subgraph APIM [Azure API Management<br/><img src='https://symbols.getvecta.com/stencil_28/2_api-management.da91a7f852.png' width='40' height='40'/>]
+        hAPIM[-API Management-]:::type
+        dAPIM[Manages REST and SOAP APIs with various subscription levels]:::description
+        RestAPI[REST API]
+        SoapAPI[SOAP API]
+        
+        RestAPI -->|has product| RestProduct[Product: REST API]
+        RestAPI -->|has subscriptions| FreeRest[Free Subscription]
+        RestAPI -->|has subscriptions| BasicRest[Basic Subscription]
+        RestAPI -->|has subscriptions| StandardRest[Standard Subscription]
+        
+        SoapAPI -->|has product| SoapProduct[Product: SOAP API]
+        SoapAPI -->|has subscriptions| FreeSoap[Free Subscription]
+        SoapAPI -->|has subscriptions| BasicSoap[Basic Subscription]
+        SoapAPI -->|has subscriptions| StandardSoap[Standard Subscription]
+    end
+    APIM:::internalSystem
+
+    subgraph AppInstance [Application Instance]
+        hAppInstance[-Application-]:::type
+        dAppInstance[Hosts the application with monitoring alarms and notification groups]:::description
+        Alarm400[Alarm 400]
+        Alarm401[Alarm 401]
+        Alarm500[Alarm 500]
+        Alarm501[Alarm 501]
+        NotificationGroup[Notification Group<br/><img src='https://www.cloudsma.com/wp-content/uploads/2018/10/azure_monitor_twitter-1.png' width='40' height='40'/>] --> Alarm400
+        NotificationGroup --> Alarm401
+        NotificationGroup --> Alarm500
+        NotificationGroup --> Alarm501
+    end
+    AppInstance:::internalSystem
+
+    subgraph Dashboards [Dashboards<br/><img src='https://cdn-icons-png.flaticon.com/512/686/686382.png' width='40' height='40'/>]
+        hDashboards[-Dashboards-]:::type
+        dDashboards[Displays API metrics and insights]:::description
+        Dashboard1[Dashboard 1]
+        Dashboard2[Dashboard 2]
+    end
+    Dashboards:::internalSystem
+
+    subgraph AppInsights [Application Insights<br/><img src='https://symbols.getvecta.com/stencil_28/8_application-insights.e5d256458d.png' width='40' height='40'/>]
+        hAppInsights[-Insights-]:::type
+        dAppInsights[Provides performance metrics and analytics]:::description
+    end
+    AppInsights:::internalSystem
+
+    AppInsights -->|monitors| APIM
+    AppInsights -->|in front of| AppGateway[Application Gateway<br/><img src='https://symbols.getvecta.com/stencil_28/6_application-gateway.ab007e631b.png' width='40' height='40'/>]
+    AppInsights -->|linked to| Dashboard1
+    AppInsights -->|linked to| Dashboard2
+
+    %% Styling definitions
+    classDef internalSystem fill:#1168bd,color:#fff,stroke:#333,stroke-width:2px;
+    classDef externalSystem fill:#999999,color:#fff,stroke:#333,stroke-width:2px;
+    classDef type stroke-width:0px,color:#fff,fill:transparent,font-size:12px;
+    classDef description stroke-width:0px,color:#fff,fill:transparent,font-size:13px;
+
+    %% Apply styles to headers and descriptions
+    class hAPIM,hAppInstance,hDashboards,hAppInsights type;
+    class dAPIM,dAppInstance,dDashboards,dAppInsights description;
+```
